@@ -96,6 +96,11 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+        /* Majo y Sole están en la mitad inferior de la foto (el texto
+           "Un equipo..." ocupa la parte de arriba). Bajamos el foco del
+           recorte para que el crop se coma más texto de arriba y menos
+           mostrador vacío de abajo, y ellas queden centradas en pantalla. */
+        object-position: center 68%;
       }
 
       .mv-whatsapp-fab {
