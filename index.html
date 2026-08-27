@@ -9,21 +9,272 @@
     <link rel="stylesheet" href="https://db.onlinewebfonts.com/c/1aa3377e489837a26d019bba501e779d?family=HelveticaNowDisplayW01-Rg" />
     <script type="module" crossorigin src="/mivet/assets/index-D-OGydq-.js"></script>
     <link rel="stylesheet" crossorigin href="/mivet/assets/index-C83f0nfL.css">
-    <!-- Sin overrides de overflow: las secciones de servicios y equipo ahora
-         viven en páginas separadas (servicios.html, equipo.html), así que
-         el hero vuelve a comportarse exactamente como el original: pantalla
-         fija, sin competir nunca con scroll de contenido debajo. -->
+    <style>
+      /* No tocamos overflow: la CSS original del hero (index-C83f0nfL.css)
+         ya hace lo correcto por sí sola — pantalla fija en mobile
+         (width<=767px{overflow:hidden}) y scroll normal en desktop (sin
+         regla, por lo tanto auto). Las secciones de abajo solo se
+         muestran/scrollean en desktop; en mobile quedan ocultas del todo
+         (ver #mv-desktop-sections) y se accede a ellas por páginas
+         separadas (servicios.html / equipo.html), así el hero nunca
+         convive con contenido scrolleable en la plataforma donde el
+         gesto de touch compite con el drag del gato. */
+      #mv-desktop-sections {
+        display: none;
+      }
+
+      @media (min-width: 768px) {
+        #mv-desktop-sections {
+          display: block;
+        }
+      }
+
+      .mv-section {
+        position: relative;
+        z-index: 1;
+        background: #faf7f2;
+        padding: 4rem 2.5rem 6rem;
+      }
+
+      .mv-section--alt {
+        background: #ffffff;
+      }
+
+      .mv-section--flush {
+        padding: 0;
+      }
+
+      .mv-container {
+        max-width: 72rem;
+        margin: 0 auto;
+      }
+
+      .mv-heading {
+        position: relative;
+        margin: 0 0 2.5rem;
+        padding-bottom: 0.9rem;
+        font-family: var(--font-heading);
+        font-weight: 500;
+        font-size: 2rem;
+        line-height: 1.15;
+        letter-spacing: -0.01em;
+        color: #1a1a1a;
+        text-align: center;
+      }
+
+      .mv-heading::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        width: 3rem;
+        height: 3px;
+        border-radius: 999px;
+        background: #e3a052;
+        transform: translateX(-50%);
+      }
+
+      /* Servicios */
+      .mv-services-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2.25rem;
+      }
+
+      .mv-card {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        background: #ffffff;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 1.5rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      }
+
+      .mv-card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(0, 0, 0, 0.12);
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.16), 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      .mv-card:hover .mv-card-media img {
+        transform: scale(1.05);
+      }
+
+      .mv-card-media {
+        overflow: hidden;
+      }
+
+      .mv-card img {
+        display: block;
+        width: 100%;
+        /* Siempre la vertical: en un grid de 3 columnas la imagen queda
+           angosta, y recortar una foto horizontal ahí se ve mal (se come
+           al perro/gato). La vertical está pensada para ese ancho. */
+        aspect-ratio: 768 / 1376;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+      }
+
+      .mv-card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1.75rem;
+      }
+
+      .mv-card-title {
+        margin: 0;
+        font-family: var(--font-heading);
+        font-weight: 500;
+        font-size: 1.4rem;
+        letter-spacing: -0.01em;
+        color: #1a1a1a;
+      }
+
+      .mv-card-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .mv-card-list li {
+        position: relative;
+        padding-left: 1.1rem;
+        font-family: var(--font-body);
+        font-size: 0.95rem;
+        color: #3a3a3a;
+      }
+
+      .mv-card-list li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.55em;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #e3a052;
+      }
+
+      /* Equipo: full-bleed, sin blanco alrededor */
+      .mv-team-media {
+        display: block;
+        overflow: hidden;
+      }
+
+      .mv-team-media img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
 
+    <div id="mv-desktop-sections">
+      <section id="servicios" class="mv-section mv-section--alt" aria-labelledby="servicios-heading">
+        <div class="mv-container">
+          <h2 id="servicios-heading" class="mv-heading">Nuestros servicios</h2>
+          <div class="mv-services-grid">
+            <article class="mv-card">
+              <div class="mv-card-media">
+                <img
+                  src="/mivet/assets/servicios/atencion-mobile.webp"
+                  width="768"
+                  height="1376"
+                  alt="Consulta médica veterinaria en MiVet"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="mv-card-body">
+                <h3 class="mv-card-title">Atención médica</h3>
+                <ul class="mv-card-list">
+                  <li>Cirugía</li>
+                  <li>Cardiología</li>
+                  <li>Neurología</li>
+                  <li>Oftalmología</li>
+                  <li>Traumatología</li>
+                  <li>Ecografía</li>
+                  <li>Laboratorio</li>
+                  <li>Radiología</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="mv-card">
+              <div class="mv-card-media">
+                <img
+                  src="/mivet/assets/servicios/bano-mobile.webp"
+                  width="768"
+                  height="1376"
+                  alt="Peluquería canina y guardería en MiVet"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="mv-card-body">
+                <h3 class="mv-card-title">Baño y guardería</h3>
+                <ul class="mv-card-list">
+                  <li>Peluquería canina</li>
+                  <li>Guardería</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="mv-card">
+              <div class="mv-card-media">
+                <img
+                  src="/mivet/assets/servicios/internacion-mobile.webp"
+                  width="768"
+                  height="1376"
+                  alt="Sala de internación de MiVet"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="mv-card-body">
+                <h3 class="mv-card-title">Internación</h3>
+                <ul class="mv-card-list">
+                  <li>Internación</li>
+                  <li>Consultorio cat friendly</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="equipo" class="mv-section mv-section--flush" aria-label="Conocer al equipo">
+        <picture class="mv-team-media">
+          <source media="(max-width: 767px)" srcset="/mivet/assets/equipo/equipo-mobile.webp" />
+          <img
+            src="/mivet/assets/equipo/equipo-desktop.webp"
+            width="1376"
+            height="768"
+            alt="Majo y Sole, el equipo de MiVet, de espaldas en el mostrador de la clínica. El texto sobre la imagen dice: Detrás de cada consulta hay un equipo que cuida con responsabilidad"
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
+      </section>
+    </div>
+
     <script>
-      // El hero (React) trae los botones "Consultar por WhatsApp",
-      // "Sacar un turno", "Conocer al equipo" y "Ver nuestros servicios".
-      // "Servicios" y "Equipo" ahora navegan a páginas propias en vez de
-      // hacer scroll en la misma pantalla (así el hero nunca convive con
-      // contenido scrolleable, y el gesto de arrastre del gato queda
-      // 100% libre en todas las plataformas).
+      // Los botones "Consultar por WhatsApp", "Sacar un turno", "Conocer al
+      // equipo" y "Ver nuestros servicios" vienen del hero (React) sin
+      // acción conectada. En desktop, "equipo" y "servicios" hacen scroll
+      // a las secciones de esta misma página (el hero convive bien con
+      // scroll ahí, no hay gesto táctil en pugna). En mobile, en cambio,
+      // navegan a páginas separadas — así el hero queda solo en su propia
+      // pantalla fija, sin nada scrolleable debajo que compita con el
+      // drag del gato.
       (function () {
         var WHATSAPP_NUMBER = "5493525616457";
         var CONSULTA_URL =
@@ -35,6 +286,10 @@
           WHATSAPP_NUMBER +
           "?text=Hola!%20Quiero%20consultar%20disponibilidad%20para%20sacar%20un%20turno";
 
+        function isMobile() {
+          return window.matchMedia("(max-width: 767px)").matches;
+        }
+
         document.addEventListener("click", function (event) {
           var button = event.target.closest("button");
           if (!button) return;
@@ -45,9 +300,21 @@
           } else if (label.indexOf("Sacar un turno") !== -1) {
             window.open(TURNO_URL, "_blank", "noopener");
           } else if (label.indexOf("Conocer al equipo") !== -1) {
-            window.location.href = "/mivet/equipo.html";
+            if (isMobile()) {
+              window.location.href = "/mivet/equipo.html";
+            } else {
+              document
+                .getElementById("equipo")
+                .scrollIntoView({ behavior: "smooth" });
+            }
           } else if (label.indexOf("Ver nuestros servicios") !== -1) {
-            window.location.href = "/mivet/servicios.html";
+            if (isMobile()) {
+              window.location.href = "/mivet/servicios.html";
+            } else {
+              document
+                .getElementById("servicios")
+                .scrollIntoView({ behavior: "smooth" });
+            }
           }
         });
       })();
