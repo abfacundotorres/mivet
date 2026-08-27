@@ -33,7 +33,7 @@
         position: relative;
         z-index: 1;
         background: #faf7f2;
-        padding: 4rem 2.5rem 6rem;
+        padding: 3rem 2.5rem 5rem;
       }
 
       .mv-section--alt {
@@ -109,10 +109,10 @@
       .mv-card img {
         display: block;
         width: 100%;
-        /* Siempre la vertical: en un grid de 3 columnas la imagen queda
-           angosta, y recortar una foto horizontal ahí se ve mal (se come
-           al perro/gato). La vertical está pensada para ese ancho. */
-        aspect-ratio: 768 / 1376;
+        /* Vertical pero recortada (no el 768/1376 completo): en desktop
+           con 3 columnas, la versión completa deja la sección demasiado
+           alta. object-fit:cover recorta parejo arriba/abajo. */
+        aspect-ratio: 4 / 5;
         object-fit: cover;
         transition: transform 0.4s ease;
       }
@@ -134,9 +134,9 @@
       }
 
       .mv-card-list {
-        display: flex;
-        flex-direction: column;
-        gap: 0.6rem;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem 1rem;
         margin: 0;
         padding: 0;
         list-style: none;
@@ -178,9 +178,8 @@
     <div id="root"></div>
 
     <div id="mv-desktop-sections">
-      <section id="servicios" class="mv-section mv-section--alt" aria-labelledby="servicios-heading">
+      <section id="servicios" class="mv-section mv-section--alt" aria-label="Nuestros servicios">
         <div class="mv-container">
-          <h2 id="servicios-heading" class="mv-heading">Nuestros servicios</h2>
           <div class="mv-services-grid">
             <article class="mv-card">
               <div class="mv-card-media">
