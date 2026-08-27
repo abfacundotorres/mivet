@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/mivet/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conocer al equipo — MiVet</title>
+    <link rel="stylesheet" href="https://db.onlinewebfonts.com/c/5ac3fe7c6abd2f62067f266d89671492?family=HelveticaNowDisplay-Medium" />
+    <link rel="stylesheet" href="https://db.onlinewebfonts.com/c/1aa3377e489837a26d019bba501e779d?family=HelveticaNowDisplayW01-Rg" />
+    <style>
+      :root {
+        --font-heading: "HelveticaNowDisplay-Medium", "Helvetica Neue", Arial, sans-serif;
+        --font-body: "HelveticaNowDisplayW01-Rg", "Helvetica Neue", Arial, sans-serif;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: var(--font-body);
+        background: #faf7f2;
+      }
+
+      .mv-topbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 1.25rem;
+        background: #faf7f2e6;
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      }
+
+      .mv-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-family: var(--font-body);
+        font-weight: 500;
+        font-size: 0.95rem;
+        color: #1a1a1a;
+        text-decoration: none;
+      }
+
+      .mv-back::before {
+        content: "←";
+      }
+
+      .mv-logo {
+        font-family: var(--font-heading);
+        font-size: 1.1rem;
+        color: #1a1a1a;
+      }
+
+      .mv-section {
+        padding: 3rem 1.25rem 5rem;
+      }
+
+      .mv-container {
+        max-width: 80rem;
+        margin: 0 auto;
+      }
+
+      .mv-heading {
+        position: relative;
+        margin: 0 0 3rem;
+        padding-bottom: 1.25rem;
+        font-family: var(--font-heading);
+        font-weight: 500;
+        font-size: 2rem;
+        line-height: 1.1;
+        letter-spacing: -0.01em;
+        color: #1a1a1a;
+        text-align: center;
+      }
+
+      .mv-heading::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        width: 3rem;
+        height: 3px;
+        border-radius: 999px;
+        background: #e3a052;
+        transform: translateX(-50%);
+      }
+
+      @media (min-width: 768px) {
+        .mv-section { padding: 4rem 2.5rem 6rem; }
+        .mv-heading { font-size: 3rem; margin-bottom: 4rem; }
+      }
+
+      .mv-team-media {
+        display: block;
+        overflow: hidden;
+        margin: 0 auto;
+        border-radius: 1.75rem;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.14), 0 8px 20px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .mv-team-media img {
+        display: block;
+        width: 100%;
+        height: auto;
+        transition: transform 0.5s ease;
+      }
+
+      @media (hover: hover) {
+        .mv-team-media:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 28px 64px rgba(0, 0, 0, 0.18), 0 10px 24px rgba(0, 0, 0, 0.1);
+        }
+        .mv-team-media:hover img { transform: scale(1.03); }
+      }
+
+      .mv-whatsapp-fab {
+        position: fixed;
+        right: 1.25rem;
+        bottom: 1.25rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.9rem 1.4rem;
+        border-radius: 999px;
+        background: #1a1a1a;
+        color: #ffffff;
+        font-family: var(--font-body);
+        font-weight: 500;
+        font-size: 0.9rem;
+        text-decoration: none;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
+        z-index: 10;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mv-topbar">
+      <a class="mv-back" href="/mivet/">Volver</a>
+      <span class="mv-logo">mivet</span>
+      <span style="width: 3.5rem;"></span>
+    </div>
+
+    <main class="mv-section">
+      <div class="mv-container">
+        <h2 class="mv-heading">Conocer al equipo</h2>
+
+        <picture class="mv-team-media">
+          <source media="(max-width: 767px)" srcset="/mivet/assets/equipo/equipo-mobile.webp" />
+          <img
+            src="/mivet/assets/equipo/equipo-desktop.webp"
+            width="1376"
+            height="768"
+            alt="Majo y Sole, el equipo de MiVet, de espaldas en el mostrador de la clínica. El texto sobre la imagen dice: Detrás de cada consulta hay un equipo que cuida con responsabilidad"
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
+      </div>
+    </main>
+
+    <a
+      class="mv-whatsapp-fab"
+      href="https://wa.me/5493525616457?text=Hola!%20Quiero%20consultar%20por%20mi%20mascota"
+      target="_blank"
+      rel="noopener"
+    >
+      Consultar por WhatsApp
+    </a>
+  </body>
+</html>
