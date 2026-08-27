@@ -59,6 +59,16 @@
         padding: 3rem 1.25rem 5rem;
       }
 
+      .mv-section--no-heading {
+        padding-top: 1.5rem;
+      }
+
+      @media (min-width: 768px) {
+        .mv-section--no-heading {
+          padding-top: 2.5rem;
+        }
+      }
+
       .mv-container {
         max-width: 80rem;
         margin: 0 auto;
@@ -145,10 +155,8 @@
       <span style="width: 3.5rem;"></span>
     </div>
 
-    <main class="mv-section">
+    <main class="mv-section mv-section--no-heading">
       <div class="mv-container">
-        <h2 class="mv-heading">Conocer al equipo</h2>
-
         <picture class="mv-team-media">
           <source media="(max-width: 767px)" srcset="/mivet/assets/equipo/equipo-mobile.webp" />
           <img
