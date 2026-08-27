@@ -133,7 +133,9 @@
       .mv-card img {
         display: block;
         width: 100%;
-        aspect-ratio: 768 / 1376;
+        /* Recorte corto (no la vertical completa): evita que la sección
+           se estire de más en pantallas chicas. */
+        aspect-ratio: 4 / 5;
         object-fit: cover;
         transition: transform 0.4s ease;
       }

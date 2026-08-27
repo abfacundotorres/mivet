@@ -21,38 +21,28 @@
         background: #faf7f2;
       }
 
-      .mv-topbar {
-        position: sticky;
-        top: 0;
+      .mv-back-fab {
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
         z-index: 10;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 1rem 1.25rem;
-        background: #faf7f2e6;
-        backdrop-filter: blur(8px);
-        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-      }
-
-      .mv-back {
         display: inline-flex;
         align-items: center;
         gap: 0.4rem;
+        padding: 0.6rem 1.1rem;
+        border-radius: 999px;
+        background: #ffffffe6;
+        backdrop-filter: blur(8px);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
         font-family: var(--font-body);
         font-weight: 500;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         color: #1a1a1a;
         text-decoration: none;
       }
 
-      .mv-back::before {
+      .mv-back-fab::before {
         content: "←";
-      }
-
-      .mv-logo {
-        font-family: var(--font-heading);
-        font-size: 1.1rem;
-        color: #1a1a1a;
       }
 
       .mv-section {
@@ -98,12 +88,14 @@
         margin: 0;
         border-radius: 0;
         box-shadow: none;
+        height: 100dvh;
       }
 
       .mv-team-media img {
         display: block;
         width: 100%;
-        height: auto;
+        height: 100%;
+        object-fit: cover;
       }
 
       .mv-whatsapp-fab {
@@ -127,13 +119,9 @@
     </style>
   </head>
   <body>
-    <div class="mv-topbar">
-      <a class="mv-back" href="/mivet/">Volver</a>
-      <span class="mv-logo">mivet</span>
-      <span style="width: 3.5rem;"></span>
-    </div>
+    <a class="mv-back-fab" href="/mivet/">Volver</a>
 
-    <main class="mv-section mv-section--no-heading">
+    <main class="mv-section">
       <div class="mv-container">
         <picture class="mv-team-media">
           <source media="(max-width: 767px)" srcset="/mivet/assets/equipo/equipo-mobile.webp" />
