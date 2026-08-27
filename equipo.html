@@ -15,38 +15,57 @@
 
       * { box-sizing: border-box; }
 
+      html, body {
+        height: 100%;
+        overflow: hidden;
+      }
+
       body {
         margin: 0;
         font-family: var(--font-body);
         background: #faf7f2;
       }
 
-      .mv-back-fab {
+      .mv-topbar {
         position: fixed;
-        top: 1rem;
-        left: 1rem;
+        top: 0;
+        left: 0;
+        right: 0;
         z-index: 10;
+        height: 3.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1.25rem;
+        background: #faf7f2e6;
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      }
+
+      .mv-back {
         display: inline-flex;
         align-items: center;
         gap: 0.4rem;
-        padding: 0.6rem 1.1rem;
-        border-radius: 999px;
-        background: #ffffffe6;
-        backdrop-filter: blur(8px);
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
         font-family: var(--font-body);
         font-weight: 500;
-        font-size: 0.9rem;
+        font-size: 0.95rem;
         color: #1a1a1a;
         text-decoration: none;
       }
 
-      .mv-back-fab::before {
+      .mv-back::before {
         content: "←";
       }
 
+      .mv-logo {
+        font-family: var(--font-heading);
+        font-size: 1.1rem;
+        color: #1a1a1a;
+      }
+
       .mv-section {
-        padding: 0;
+        padding: 3.5rem 0 0;
+        height: 100dvh;
       }
 
       .mv-container {
@@ -88,7 +107,7 @@
         margin: 0;
         border-radius: 0;
         box-shadow: none;
-        height: 100dvh;
+        height: calc(100dvh - 3.5rem);
       }
 
       .mv-team-media img {
@@ -96,11 +115,11 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        /* Majo y Sole están en la mitad inferior de la foto (el texto
-           "Un equipo..." ocupa la parte de arriba). Bajamos el foco del
-           recorte para que el crop se coma más texto de arriba y menos
-           mostrador vacío de abajo, y ellas queden centradas en pantalla. */
-        object-position: center 68%;
+        /* El texto ("Un equipo...") está arriba de la foto y Majo/Sole
+           abajo. Priorizamos que se vea el texto completo y recortamos
+           del mostrador vacío de más abajo si el celular es más angosto
+           que la imagen original. */
+        object-position: center top;
       }
 
       .mv-whatsapp-fab {
@@ -124,7 +143,11 @@
     </style>
   </head>
   <body>
-    <a class="mv-back-fab" href="/mivet/">Volver</a>
+    <div class="mv-topbar">
+      <a class="mv-back" href="/mivet/">Volver</a>
+      <span class="mv-logo">mivet</span>
+      <span style="width: 3.5rem;"></span>
+    </div>
 
     <main class="mv-section">
       <div class="mv-container">
