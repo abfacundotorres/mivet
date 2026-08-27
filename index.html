@@ -9,8 +9,333 @@
     <link rel="stylesheet" href="https://db.onlinewebfonts.com/c/1aa3377e489837a26d019bba501e779d?family=HelveticaNowDisplayW01-Rg" />
     <script type="module" crossorigin src="/mivet/assets/index-D-OGydq-.js"></script>
     <link rel="stylesheet" crossorigin href="/mivet/assets/index-C83f0nfL.css">
+    <style>
+      /* The hero above is designed as a single fixed, non-scrolling screen
+         (html,body{overflow:hidden} in index-C83f0nfL.css). The sections
+         below need the page to scroll, so we reopen scrolling here. */
+      html,
+      body {
+        height: auto;
+        min-height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+
+      /* --- Nuevas secciones: Nuestros servicios / Conocer al equipo ---
+         El bundle de Tailwind ya está purgado a las clases que usa el hero,
+         así que estas secciones usan CSS propio con las mismas variables de
+         marca (--font-heading / --font-body) y paleta (#e3a052 / #1a1a1a)
+         que ya define index-C83f0nfL.css. Se pintan por encima del video de
+         fondo (position:fixed;z-index:0) igual que hace el hero (z-[1]). */
+      .mv-section {
+        position: relative;
+        z-index: 1;
+        background: #faf7f2;
+        padding: 4rem 1.25rem;
+      }
+
+      .mv-section--alt {
+        background: #ffffff;
+      }
+
+      .mv-container {
+        max-width: 72rem;
+        margin: 0 auto;
+      }
+
+      .mv-heading {
+        margin: 0 0 2.5rem;
+        font-family: var(--font-heading);
+        font-weight: 500;
+        font-size: 1.75rem;
+        line-height: 1.15;
+        color: #1a1a1a;
+        text-align: center;
+      }
+
+      @media (min-width: 768px) {
+        .mv-section {
+          padding: 6rem 2.5rem;
+        }
+
+        .mv-heading {
+          font-size: 2.5rem;
+          margin-bottom: 3.5rem;
+        }
+      }
+
+      /* Servicios */
+      .mv-services-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.75rem;
+      }
+
+      @media (min-width: 768px) {
+        .mv-services-grid {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 2rem;
+        }
+      }
+
+      .mv-card {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        background: #ffffff;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 1.25rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+      }
+
+      .mv-card picture,
+      .mv-card img {
+        display: block;
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+      }
+
+      .mv-card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 0.9rem;
+        padding: 1.5rem;
+      }
+
+      .mv-card-title {
+        margin: 0;
+        font-family: var(--font-heading);
+        font-weight: 500;
+        font-size: 1.25rem;
+        color: #1a1a1a;
+      }
+
+      .mv-card-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .mv-card-list li {
+        position: relative;
+        padding-left: 1.1rem;
+        font-family: var(--font-body);
+        font-size: 0.95rem;
+        color: #3a3a3a;
+      }
+
+      .mv-card-list li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.55em;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #e3a052;
+      }
+
+      /* Equipo */
+      .mv-team-media {
+        overflow: hidden;
+        margin: 0 0 2.5rem;
+        border-radius: 1.5rem;
+      }
+
+      .mv-team-media img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .mv-team-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 30rem;
+        margin: 0 auto;
+        padding: 0;
+        list-style: none;
+        gap: 2rem;
+        text-align: center;
+      }
+
+      @media (min-width: 768px) {
+        .mv-team-grid {
+          grid-template-columns: repeat(4, 1fr);
+          max-width: none;
+        }
+      }
+
+      .mv-team-name {
+        margin: 0;
+        font-family: var(--font-heading);
+        font-weight: 500;
+        font-size: 1.1rem;
+        color: #1a1a1a;
+      }
+
+      .mv-team-role {
+        margin: 0.25rem 0 0;
+        font-family: var(--font-body);
+        font-weight: 500;
+        font-size: 0.9rem;
+        color: #e3a052;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
+
+    <main>
+      <section id="servicios" class="mv-section mv-section--alt" aria-labelledby="servicios-heading">
+        <div class="mv-container">
+          <h2 id="servicios-heading" class="mv-heading">Nuestros servicios</h2>
+          <div class="mv-services-grid">
+            <article class="mv-card">
+              <picture>
+                <source media="(max-width: 767px)" srcset="/mivet/assets/servicios/atencion-mobile.webp" />
+                <img
+                  src="/mivet/assets/servicios/atencion-desktop.webp"
+                  width="1408"
+                  height="768"
+                  alt="Consulta médica veterinaria en MiVet"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+              <div class="mv-card-body">
+                <h3 class="mv-card-title">Atención médica</h3>
+                <ul class="mv-card-list">
+                  <li>Cirugía</li>
+                  <li>Cardiología</li>
+                  <li>Neurología</li>
+                  <li>Oftalmología</li>
+                  <li>Traumatología</li>
+                  <li>Ecografía</li>
+                  <li>Laboratorio</li>
+                  <li>Radiología</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="mv-card">
+              <picture>
+                <source media="(max-width: 767px)" srcset="/mivet/assets/servicios/bano-mobile.webp" />
+                <img
+                  src="/mivet/assets/servicios/bano-desktop.webp"
+                  width="1408"
+                  height="768"
+                  alt="Peluquería canina y guardería en MiVet"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+              <div class="mv-card-body">
+                <h3 class="mv-card-title">Baño y guardería</h3>
+                <ul class="mv-card-list">
+                  <li>Peluquería canina</li>
+                  <li>Guardería</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="mv-card">
+              <picture>
+                <source media="(max-width: 767px)" srcset="/mivet/assets/servicios/internacion-mobile.webp" />
+                <img
+                  src="/mivet/assets/servicios/internacion-desktop.webp"
+                  width="1408"
+                  height="768"
+                  alt="Sala de internación de MiVet"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+              <div class="mv-card-body">
+                <h3 class="mv-card-title">Internación</h3>
+                <ul class="mv-card-list">
+                  <li>Internación</li>
+                  <li>Consultorio cat friendly</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="equipo" class="mv-section" aria-labelledby="equipo-heading">
+        <div class="mv-container">
+          <h2 id="equipo-heading" class="mv-heading">Conocer al equipo</h2>
+
+          <picture class="mv-team-media">
+            <source media="(max-width: 767px)" srcset="/mivet/assets/equipo/equipo-mobile.webp" />
+            <img
+              src="/mivet/assets/equipo/equipo-desktop.webp"
+              width="1376"
+              height="768"
+              alt="Majo y Sole, el equipo de MiVet, de espaldas en el mostrador de la clínica. El texto sobre la imagen dice: Detrás de cada consulta hay un equipo que cuida con responsabilidad"
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
+
+          <!-- Sumar más integrantes: agregar un <li class="mv-team-member"> más
+               dentro de esta misma lista, sin tocar el resto del layout. -->
+          <ul class="mv-team-grid">
+            <li class="mv-team-member">
+              <p class="mv-team-name">Majo</p>
+              <p class="mv-team-role">Veterinaria</p>
+            </li>
+            <li class="mv-team-member">
+              <p class="mv-team-name">Sole</p>
+              <p class="mv-team-role">Veterinaria</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      // El hero (renderizado por el bundle de React) ya trae los botones
+      // "Consultar por WhatsApp", "Sacar un turno", "Conocer al equipo" y
+      // "Ver nuestros servicios", pero sin acción conectada. Se delega el
+      // click en document para no depender del momento exacto en que React
+      // termina de montar el árbol.
+      (function () {
+        var WHATSAPP_NUMBER = "5493525616457";
+        var CONSULTA_URL =
+          "https://wa.me/" +
+          WHATSAPP_NUMBER +
+          "?text=Hola!%20Quiero%20consultar%20por%20mi%20mascota";
+        var TURNO_URL =
+          "https://wa.me/" +
+          WHATSAPP_NUMBER +
+          "?text=Hola!%20Quiero%20consultar%20disponibilidad%20para%20sacar%20un%20turno";
+
+        document.addEventListener("click", function (event) {
+          var button = event.target.closest("button");
+          if (!button) return;
+          var label = button.textContent.trim();
+
+          if (label.indexOf("Consultar por WhatsApp") !== -1) {
+            window.open(CONSULTA_URL, "_blank", "noopener");
+          } else if (label.indexOf("Sacar un turno") !== -1) {
+            window.open(TURNO_URL, "_blank", "noopener");
+          } else if (label.indexOf("Conocer al equipo") !== -1) {
+            document
+              .getElementById("equipo")
+              .scrollIntoView({ behavior: "smooth" });
+          } else if (label.indexOf("Ver nuestros servicios") !== -1) {
+            document
+              .getElementById("servicios")
+              .scrollIntoView({ behavior: "smooth" });
+          }
+        });
+      })();
+    </script>
   </body>
 </html>
