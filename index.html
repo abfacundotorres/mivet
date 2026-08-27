@@ -10,26 +10,21 @@
     <script type="module" crossorigin src="/mivet/assets/index-D-OGydq-.js"></script>
     <link rel="stylesheet" crossorigin href="/mivet/assets/index-C83f0nfL.css">
     <style>
-      /* El hero mueve el video de fondo según la posición del dedo/mouse
-         (listeners de mousemove/touchstart/touchmove en window, dentro del
-         bundle). Ese gesto de arrastre es el mismo que usaría el navegador
-         para scrollear, así que si dejamos overflow-y:auto (scroll nativo
-         por drag), ambos compiten: arrastrar para bajar también "scrubea"
-         el video y el scroll se traba/tironea. La solución es mantener el
-         overflow:hidden original (html,body{overflow:hidden} en
-         index-C83f0nfL.css) — el drag queda 100% libre para el hero — y
-         bajar a las secciones solo por click en los botones del hero, que
-         ya navegan con scrollIntoView (funciona igual con overflow:hidden,
-         porque scrollIntoView es scroll por JS, no un gesto del usuario).
-         Solo estiramos el alto para que el contenido de las secciones
-         exista y sea alcanzable por ese scroll programático. */
+      /* El hero mueve el video de fondo según la posición del dedo/mouse.
+         Se probó bloquear el scroll nativo por completo (overflow:hidden)
+         para evitar que compita con ese gesto en mobile, pero eso rompe
+         scrollIntoView (los botones no tienen ningún contenedor scrolleable
+         al que moverse) y deja la página congelada a mitad de sección.
+         Se revierte a overflow-y:auto, que es el comportamiento que ya
+         funcionaba antes: hay una leve competencia visual entre el drag
+         del gato y el scroll en mobile, pero el scroll real (nativo y por
+         botón) vuelve a andar en ambas plataformas. */
       html,
       body {
         height: auto;
         min-height: 100%;
         overflow-x: hidden;
-        overflow-y: hidden;
-        overscroll-behavior: none;
+        overflow-y: auto;
       }
 
       /* --- Nuevas secciones: Nuestros servicios / Conocer al equipo ---
