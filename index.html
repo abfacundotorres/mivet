@@ -280,16 +280,17 @@
       // navegan a páginas separadas — así el hero queda solo en su propia
       // pantalla fija, sin nada scrolleable debajo que compita con el
       // drag del gato.
+      //
+      // "Sacar un turno" conecta directo al sistema de turnos (Worker),
+      // no a WhatsApp. "Consultar por WhatsApp" sigue yendo a WhatsApp
+      // para consultas generales.
       (function () {
         var WHATSAPP_NUMBER = "5493525616457";
         var CONSULTA_URL =
           "https://wa.me/" +
           WHATSAPP_NUMBER +
           "?text=Hola!%20Quiero%20consultar%20por%20mi%20mascota";
-        var TURNO_URL =
-          "https://wa.me/" +
-          WHATSAPP_NUMBER +
-          "?text=Hola!%20Quiero%20consultar%20disponibilidad%20para%20sacar%20un%20turno";
+        var TURNOS_URL = "https://mivet-turnos.abfacundotorres.workers.dev/";
 
         function isMobile() {
           return window.matchMedia("(max-width: 767px)").matches;
@@ -303,7 +304,7 @@
           if (label.indexOf("Consultar por WhatsApp") !== -1) {
             window.open(CONSULTA_URL, "_blank", "noopener");
           } else if (label.indexOf("Sacar un turno") !== -1) {
-            window.open(TURNO_URL, "_blank", "noopener");
+            window.open(TURNOS_URL, "_blank", "noopener");
           } else if (label.indexOf("Conocer al equipo") !== -1) {
             if (isMobile()) {
               window.location.href = "/mivet/equipo.html";
