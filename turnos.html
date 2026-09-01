@@ -222,13 +222,23 @@
         pointer-events: none;
       }
 
-      .mv-turno-media:hover .mv-turno-hint,
-      .mv-turno-media.is-playing .mv-turno-hint {
-        opacity: 1;
-      }
+      /* El hint "Tocá para ver" solo tiene sentido en desktop, donde el
+         hover es lo que dispara la reproducción. En mobile el video
+         arranca solo por visibilidad (ver IntersectionObserver más abajo),
+         así que no hay nada que "tocar". */
+      @media (hover: hover) {
+        .mv-turno-media:hover .mv-turno-hint,
+        .mv-turno-media.is-playing .mv-turno-hint {
+          opacity: 1;
+        }
 
-      .mv-turno-media.is-playing .mv-turno-hint {
-        opacity: 0;
+        .mv-turno-media.is-playing .mv-turno-hint {
+          opacity: 0;
+        }
+
+        .mv-turno-media {
+          cursor: pointer;
+        }
       }
     </style>
   </head>
@@ -311,12 +321,31 @@
 
     <script>
       (function () {
-        // Los botones navegan al sistema de turnos. El preview de video de
-        // abajo es un elemento aparte: no navega, solo reproduce en
-        // hover (desktop) o toque (mobile) — así el video nunca "roba" el
-        // click del botón.
+        // Dispositivo con hover real (mouse/trackpad) vs. touch. Se usa para
+        // decidir tanto si el click en la tarjeta navega como si el video
+        // se reproduce por hover o por visibilidad. Se guarda el
+        // MediaQueryList (no solo el booleano) y se lee `.matches` en el
+        // momento de uso, para que un cambio de hover/touch en caliente
+        // (p.ej. togglear la emulación mobile en DevTools sin recargar)
+        // se refleje sin tener que recargar la página.
+        var hoverMql = window.matchMedia("(hover: hover)");
+
+        // El botón navega al sistema de turnos en cualquier dispositivo.
         document.querySelectorAll(".mv-turno-btn").forEach(function (btn) {
           btn.addEventListener("click", function () {
+            window.location.href = btn.dataset.href;
+          });
+        });
+
+        // Desktop: clickear en cualquier parte de la tarjeta (incluido el
+        // video) también navega. El click sobre el botón ya navega por su
+        // propio listener, así que se ignora acá para no navegar dos veces.
+        document.querySelectorAll(".mv-turno-item").forEach(function (item) {
+          var btn = item.querySelector(".mv-turno-btn");
+          if (!btn) return;
+          item.addEventListener("click", function (e) {
+            if (!hoverMql.matches) return;
+            if (e.target.closest(".mv-turno-btn")) return;
             window.location.href = btn.dataset.href;
           });
         });
@@ -346,23 +375,49 @@
             video.currentTime = 0;
           }
 
-          // Desktop: reproduce con el mouse encima, pausa al salir.
-          card.addEventListener("mouseenter", play);
-          card.addEventListener("mouseleave", pause);
+          // Desktop: reproduce con el mouse encima, pausa al salir. Se
+          // chequea hoverMql.matches para que un touch que dispare eventos
+          // sintéticos de mouse no interfiera con el modo mobile.
+          card.addEventListener("mouseenter", function () {
+            if (hoverMql.matches) play();
+          });
+          card.addEventListener("mouseleave", function () {
+            if (hoverMql.matches) pause();
+          });
 
-          // Mobile: el primer toque reproduce, un segundo toque pausa
-          // (toggle), sin interferir con el scroll de la página.
-          card.addEventListener(
-            "touchstart",
-            function () {
-              if (video.paused) {
-                play();
-              } else {
-                pause();
-              }
+          // Mobile: no tiene sentido depender de touch, porque el dedo no
+          // permanece sobre el elemento. Reproduce en loop mientras el
+          // video está visible en el viewport y pausa al salir, para no
+          // gastar batería/datos de más.
+          var observer = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                  play();
+                } else {
+                  pause();
+                }
+              });
             },
-            { passive: true }
+            { threshold: 0.5 }
           );
+
+          // Activa un modo u otro según la capacidad de hover actual, y
+          // vuelve a resolverlo si esa capacidad cambia en caliente (evita
+          // el bug de quedarse con el modo "viejo" al togglear la emulación
+          // mobile de DevTools sin recargar la página).
+          function applyMode(canHover) {
+            pause();
+            observer.disconnect();
+            if (!canHover) {
+              observer.observe(card);
+            }
+          }
+
+          applyMode(hoverMql.matches);
+          hoverMql.addEventListener("change", function (e) {
+            applyMode(e.matches);
+          });
         });
       })();
     </script>
