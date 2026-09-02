@@ -337,14 +337,14 @@
           });
         });
 
-        // Desktop: clickear en cualquier parte de la tarjeta (incluido el
-        // video) también navega. El click sobre el botón ya navega por su
-        // propio listener, así que se ignora acá para no navegar dos veces.
+        // Clickear/tocar cualquier parte de la tarjeta (incluido el video)
+        // también navega, en desktop y en mobile. El click sobre el botón
+        // ya navega por su propio listener, así que se ignora acá para no
+        // navegar dos veces.
         document.querySelectorAll(".mv-turno-item").forEach(function (item) {
           var btn = item.querySelector(".mv-turno-btn");
           if (!btn) return;
           item.addEventListener("click", function (e) {
-            if (!hoverMql.matches) return;
             if (e.target.closest(".mv-turno-btn")) return;
             window.location.href = btn.dataset.href;
           });
