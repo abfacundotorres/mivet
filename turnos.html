@@ -83,6 +83,41 @@
         color: var(--mv-ink);
       }
 
+      /* Acceso para el equipo: mismo lenguaje de botón píldora que el
+         resto del sitio, pero en amarillo para diferenciarlo como acción
+         interna (no es un CTA de reserva para clientes). */
+      .mv-staff-btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.45rem 1rem;
+        border-radius: 999px;
+        background: #f5c518;
+        color: var(--mv-ink);
+        font-family: var(--font-heading);
+        font-weight: 500;
+        font-size: 0.9rem;
+        text-decoration: none;
+        box-shadow: 0 4px 12px rgba(245, 197, 24, 0.35);
+        transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
+      }
+
+      @media (hover: hover) {
+        .mv-staff-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 18px rgba(245, 197, 24, 0.45);
+          filter: brightness(1.04);
+        }
+      }
+
+      .mv-staff-btn:active {
+        transform: scale(0.98);
+      }
+
+      .mv-staff-btn:focus-visible {
+        outline: 2px solid var(--mv-ink);
+        outline-offset: 3px;
+      }
+
       .mv-section {
         padding: 2rem 1.25rem 3.5rem;
       }
@@ -268,7 +303,7 @@
     <div class="mv-topbar">
       <a class="mv-back" href="/mivet/">Volver</a>
       <span class="mv-logo">mivet</span>
-      <span style="width: 3.5rem;"></span>
+      <a class="mv-staff-btn" href="https://mivet-turnos.abfacundotorres.workers.dev/staff">Staff</a>
     </div>
 
     <main class="mv-section">
