@@ -64,6 +64,19 @@
         transform: translateX(-3px);
       }
 
+      /* Variante del link "Volver": mismo estilo, pero es un <button> que
+         cambia de paso dentro de la página en vez de navegar. */
+      button.mv-back {
+        border: none;
+        background: none;
+        padding: 0;
+        cursor: pointer;
+      }
+
+      #mv-volver-estudios {
+        margin-bottom: 1.5rem;
+      }
+
       .mv-logo {
         font-family: var(--font-heading);
         font-size: 1.1rem;
@@ -110,6 +123,15 @@
         display: grid;
         grid-template-columns: 1fr;
         gap: 2rem;
+      }
+
+      /* [hidden] es una regla del navegador (display: none); una regla de
+         autor con la misma o menor especificidad no la pisa por más
+         specificity que tenga, porque el origen (autor vs. user-agent)
+         decide antes que la especificidad. Sin esto, un .mv-turnos-grid con
+         "hidden" seguía mostrándose por su propio display: grid. */
+      .mv-turnos-grid[hidden] {
+        display: none;
       }
 
       @media (min-width: 768px) {
@@ -254,12 +276,12 @@
         <h1 class="mv-heading">Elegí tu turno</h1>
         <p class="mv-subheading">Consulta médica o baño y peluquería — vos elegís.</p>
 
-        <div class="mv-turnos-grid">
+        <div class="mv-turnos-grid" id="mv-nivel-principal">
           <div class="mv-turno-item">
             <button
               type="button"
               class="mv-turno-btn"
-              data-href="https://mivet-turnos.abfacundotorres.workers.dev/?agenda=veterinaria"
+              data-mostrar="mv-nivel-estudios"
             >
               <svg class="mv-turno-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <circle cx="12" cy="16.2" r="3.4" />
@@ -268,7 +290,7 @@
                 <circle cx="15.6" cy="5.8" r="1.9" />
                 <circle cx="19.2" cy="10" r="1.9" />
               </svg>
-              Veterinaria
+              Estudios
             </button>
             <div class="mv-turno-media" data-turno-preview>
               <video
@@ -316,6 +338,65 @@
             </div>
           </div>
         </div>
+
+        <div id="mv-nivel-estudios" hidden>
+          <button type="button" class="mv-back" id="mv-volver-estudios">Volver</button>
+
+          <div class="mv-turnos-grid">
+            <div class="mv-turno-item">
+              <button
+                type="button"
+                class="mv-turno-btn"
+                data-href="https://mivet-turnos.abfacundotorres.workers.dev/?agenda=radiografia"
+              >
+                <svg class="mv-turno-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="4" y="5" width="16" height="14" rx="2" />
+                  <path d="M8 9h4M8 13h8M8 17h5" />
+                </svg>
+                Radiografía
+              </button>
+              <div class="mv-turno-media" data-turno-preview>
+                <video
+                  class="mv-turno-video"
+                  muted
+                  loop
+                  playsinline
+                  preload="none"
+                >
+                  <source media="(min-width: 768px)" src="/mivet/assets/turnos/gatorayosxv.mp4" type="video/mp4" />
+                  <source src="/mivet/assets/turnos/gatorayosxh.mp4" type="video/mp4" />
+                </video>
+                <span class="mv-turno-hint">Tocá para ver</span>
+              </div>
+            </div>
+
+            <div class="mv-turno-item">
+              <button
+                type="button"
+                class="mv-turno-btn"
+                data-href="https://mivet-turnos.abfacundotorres.workers.dev/?agenda=ecografia"
+              >
+                <svg class="mv-turno-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M3 12h4l2 7 4-14 2 7h6" />
+                </svg>
+                Ecografía
+              </button>
+              <div class="mv-turno-media" data-turno-preview>
+                <video
+                  class="mv-turno-video"
+                  muted
+                  loop
+                  playsinline
+                  preload="none"
+                >
+                  <source media="(min-width: 768px)" src="/mivet/assets/turnos/perroecov.mp4" type="video/mp4" />
+                  <source src="/mivet/assets/turnos/perroecoh.mp4" type="video/mp4" />
+                </video>
+                <span class="mv-turno-hint">Tocá para ver</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
 
@@ -330,25 +411,57 @@
         // se refleje sin tener que recargar la página.
         var hoverMql = window.matchMedia("(hover: hover)");
 
-        // El botón navega al sistema de turnos en cualquier dispositivo.
+        // Un botón de turno navega directo al turnero (data-href) o, si es
+        // un paraguas como "Estudios", abre un paso siguiente dentro de la
+        // misma página (data-mostrar) en vez de navegar.
+        function activarTurnoBtn(btn) {
+          if (btn.dataset.mostrar) {
+            document.getElementById("mv-nivel-principal").hidden = true;
+            document.getElementById(btn.dataset.mostrar).hidden = false;
+            return;
+          }
+          window.location.href = btn.dataset.href;
+        }
+
+        // El botón navega/avanza de paso en cualquier dispositivo.
         document.querySelectorAll(".mv-turno-btn").forEach(function (btn) {
           btn.addEventListener("click", function () {
-            window.location.href = btn.dataset.href;
+            activarTurnoBtn(btn);
           });
         });
 
         // Clickear/tocar cualquier parte de la tarjeta (incluido el video)
-        // también navega, en desktop y en mobile. El click sobre el botón
-        // ya navega por su propio listener, así que se ignora acá para no
-        // navegar dos veces.
+        // hace lo mismo que el botón, en desktop y en mobile. El click sobre
+        // el botón ya dispara por su propio listener, así que se ignora acá
+        // para no duplicar la acción.
         document.querySelectorAll(".mv-turno-item").forEach(function (item) {
           var btn = item.querySelector(".mv-turno-btn");
           if (!btn) return;
           item.addEventListener("click", function (e) {
             if (e.target.closest(".mv-turno-btn")) return;
-            window.location.href = btn.dataset.href;
+            activarTurnoBtn(btn);
           });
         });
+
+        // "Volver" del sub-paso de Estudios (Radiografía/Ecografía) regresa
+        // al primer nivel, sin navegar a otra página.
+        var volverEstudios = document.getElementById("mv-volver-estudios");
+        if (volverEstudios) {
+          volverEstudios.addEventListener("click", function () {
+            document.getElementById("mv-nivel-estudios").hidden = true;
+            document.getElementById("mv-nivel-principal").hidden = false;
+          });
+        }
+
+        // Si el botón "atrás" del turnero (mivet-turnos) mandó de vuelta acá
+        // con ?volver=estudios, es porque el usuario venía del sub-paso
+        // Estudios (eligió Radiografía o Ecografía) y no del primer nivel:
+        // reabrimos ese sub-paso directo en vez de mostrar el nivel
+        // principal.
+        if (new URLSearchParams(location.search).get("volver") === "estudios") {
+          document.getElementById("mv-nivel-principal").hidden = true;
+          document.getElementById("mv-nivel-estudios").hidden = false;
+        }
 
         // El atributo poster es único por <video>, pero cada breakpoint usa
         // un recorte de imagen distinto (igual que los <source> de abajo) —
@@ -357,7 +470,8 @@
         // a resize.
         var isDesktop = window.matchMedia("(min-width: 768px)").matches;
         document.querySelectorAll(".mv-turno-video").forEach(function (video) {
-          video.poster = isDesktop ? video.dataset.posterDesktop : video.dataset.posterMobile;
+          var poster = isDesktop ? video.dataset.posterDesktop : video.dataset.posterMobile;
+          if (poster) video.poster = poster;
         });
 
         document.querySelectorAll("[data-turno-preview]").forEach(function (card) {
